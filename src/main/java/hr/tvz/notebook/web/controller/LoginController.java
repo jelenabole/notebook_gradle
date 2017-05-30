@@ -52,8 +52,6 @@ public class LoginController {
 		logger.info("GET - register");
 		model.addAttribute("registerForm", new RegisterForm());
 
-		// TODO - dohvatiti popis usera - provjera (obrisati):
-		model.addAttribute("users", userService.findAll());
 		return "register";
 	}
 

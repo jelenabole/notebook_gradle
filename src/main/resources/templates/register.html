@@ -92,29 +92,5 @@
 		</div>
 	</div>
 
-	<div>
-		<table class="table table-striped">
-			<thead class="thead-inverse">
-				<tr>
-					<th>Id</th>
-					<th>Full name</th>
-					<th>Username</th>
-					<th>Email</th>
-					<th>Password</th>
-					<th>Enabled</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="user : ${users}">
-					<td th:text="${user.id}"></td>
-					<td th:text="${user.fullName}"></td>
-					<td th:text="${user.username}"></td>
-					<td th:text="${user.email}"></td>
-					<td th:text="${user.password}"></td>
-					<td th:text="${user.enabled}"></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
 </body>
 </html>
