@@ -1,0 +1,156 @@
+@CHARSET "UTF-8";
+
+html {
+	height: 100%;
+}
+
+/*** DEFAULT CLASSES ***/
+.has-error {
+	border: 2px solid red;
+}
+
+.error {
+	color: darkred;
+	margin-left: 3%;
+	font-weight: 600;
+}
+
+.block {
+	display: block;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.centered {
+	text-align: center;
+}
+
+h1 {
+	text-align: center;
+	padding: 2%;
+}
+
+/*** NEW FORMS - on Main Page and for all entities ***/
+.newForm {
+	width: 100%;
+	margin: 1%;
+}
+
+.newForm td {
+	padding: 1%;
+	vertical-align: top; /* zbog ispisa grešaka */
+}
+
+.newForm td:first-child {
+	text-align: right;
+	padding-left: 3%;
+	padding-top: 2%;
+}
+
+/* labels of checkboxes and radio buttons */
+.newForm label span {
+	font-weight: 500;
+}
+
+.newForm .marks {
+	padding-left: 3%;
+	font-style: italic;
+	display: block;
+}
+
+.newForm .roles {
+	display: block;
+}
+
+.newForm input[type="submit"], .newForm input[type="button"], .newForm button
+	{
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+/*** MAIN PAGE - Note Statistics Table ***/
+.stat-table td:nth-child(2), .stat-table th:nth-child(2) {
+	text-align: center;
+}
+
+.stat-table td:nth-child(1) {
+	font-weight: 600;
+}
+
+/*** PREVIEW NOTE (previewNote) ***/
+.previewTable input[type="submit"], .previewTable input[type="button"],
+	.previewTable button {
+	margin: auto;
+}
+
+.previewTable td:first-child {
+	width: 20%;
+}
+
+/*** SAVED NOTE PAGE (savedNote) ***/
+.floatingButton {
+	position: fixed;
+	bottom: 15px;
+	left: 15px;
+}
+
+/*** LOGIN - mainLogin (form same as on first page) ***/
+.fullHeight, .mainLogin, .container {
+	height: 80%;
+}
+
+.container {
+	display: table;
+	vertical-align: middle;
+}
+
+.vertical-center-row {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.mainLogin table {
+	width: 100%;
+}
+
+.mainLogin td {
+	padding: 1%;
+}
+
+.mainLogin td:first-child {
+	text-align: right;
+	padding-left: 3%;
+}
+
+/*** MAIN REGISTER - sa mainLogin ***/
+.mainRegister td {
+	vertical-align: top;
+}
+
+.mainRegister label {
+	padding-top: 4%;
+}
+
+/*** dodatne klase za uređivanje bilješki ***/
+.savedNote { /* defaultna - mijenjati boju */
+	/* crno-bijela, siva, plava, zelena, crvena, naranđasto-žuta */
+	padding: 2%;
+	border-left: 6px solid black;
+	background-color: #F6F9FC;
+	border-radius: 10px;
+}
+
+.savedNote .content {
+	padding: 5% 0;
+}
+
+.savedNote h1 {
+	padding: 5%;
+}
+
+/*** PRIKAZ LISTE BILJEŠKI ***/
+.viewNotes table td {
+	vertical-align: middle; /* zbog ispisa grešaka */
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title th:utext="#{title.savedNote}">Tab Title</title>
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<script type="text/javascript" th:src="@{/js/jquery320.js}"></script>
+<script type="text/javascript"
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+	<div th:replace="fragments/menu :: newNote"></div>
+
+	<div class="row">
+		<!-- th:classappend="${note.mark.name}" -->
+		<div class="savedNote col-md-8 col-md-offset-2"
+			th:style="${note.mark?.style}">
+			<p th:object="${note}">
+				<span th:utext="#{note.form.user}"></span><span class="bold"
+					th:text="*{user.fullName} + ' (' + *{user.username} + ')'"></span>
+				<br /> <span th:utext="#{note.form.notebook}"></span><span
+					class="bold"
+					th:text="*{notebook.title} + ' - ' + *{notebook.description}">
+				</span>
+			</p>
+
+			<div class="centered content">
+				<h1 th:text="${note.header}"></h1>
+				<p th:text="${note.text}"></p>
+			</div>
+			<!-- primary -->
+			<a class="btn btn-info floatingButton" th:href="@{/newNote}"
+				th:utext="#{button.return}"></a>
+		</div>
+	</div>
+
+</body>
+</html>

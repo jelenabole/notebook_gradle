@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<script type="text/javascript" th:src="@{/js/jquery320.js}"></script>
+<script type="text/javascript"
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<!-- viewNoteTable, viewNotebookTable, viewUsersTable, userInfoTable -->
+
+	<div th:fragment="viewNotesTable">
+		<div class="viewNotes">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th sec:authorize="hasRole('ROLE_ADMIN')" th:utext="#{table.id}"></th>
+						<th sec:authorize="hasRole('ROLE_ADMIN')" th:utext="#{note.user}"></th>
+						<th th:utext="#{note.notebook}"></th>
+						<th th:utext="#{note.header}"></th>
+						<th th:utext="#{note.text}"></th>
+						<th th:utext="#{note.important}"></th>
+						<th sec:authorize="hasRole('ROLE_ADMIN')"
+							th:utext="#{table.status}"></th>
+						<th th:utext="#{table.actions}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="note : ${notes}">
+						<td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${note.id}"></td>
+						<td sec:authorize="hasRole('ROLE_ADMIN')"
+							th:text="${note.user.fullName}"></td>
+						<td th:text="${note.notebook.title}"></td>
+						<td th:text="${note.header}"></td>
+						<td th:text="${note.text}"></td>
+
+						<td th:class="${note.mark}"><span
+							th:text="${note.importance?.important} ? #{table.yes} : #{table.no}"></span>
+							<span th:if="${note.importance?.important}"
+							class="glyphicon glyphicon-heart"
+							th:style="'color:' + ${note.mark.id}"></span></td>
+						<td sec:authorize="hasRole('ROLE_ADMIN')"><span
+							th:utext="#{${note.status.translation}}"></span> <span></span></td>
+
+						<td><a sec:authorize="!hasRole('ROLE_ADMIN')"
+							class="btn btn-sm btn-primary"
+							th:href="@{'/newNote/' + ${note.id}}" th:text="#{button.edit}"></a>
+
+							<a sec:authorize="hasRole('ROLE_ADMIN')"
+							class="btn btn-sm btn-primary"
+							th:attr="onclick='javascript:getOne(\'' + ${note.id} + '\');'"
+							th:text="#{button.edit}"></a> <a class="btn btn-sm btn-danger"
+							th:attr="onclick='javascript:deleteNote(\'' + ${note.id} + '\');'"
+							th:text="#{button.delete}"></a> <a
+							sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-sm btn-info"
+							th:attr="onclick='javascript:changeStatus(\'' + ${note.id} + '\');'"
+							th:text="#{button.changeStatus}"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div th:fragment="viewNotebooksTable">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th th:utext="#{table.id}"></th>
+					<th th:utext="#{notebook.title}"></th>
+					<th th:utext="#{notebook.description}"></th>
+					<th th:utext="#{notebook.numberOfNotes}"></th>
+					<th th:utext="#{table.actions}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="notebook : ${notebooks}">
+					<td th:text="${notebook.id}"></td>
+					<td th:text="${notebook.title}"></td>
+					<td th:text="${notebook.description}"></td>
+					<td th:text="${notebook.numberOfNotes}"></td>
+					<td><a class="btn btn-sm btn-primary"
+						th:attr="onclick='javascript:getOne(\'' + ${notebook.id} + '\');'"
+						th:text="#{button.edit}"></a> <a class="btn btn-sm btn-danger"
+						th:attr="onclick='javascript:deleteNotebook(\'' + ${notebook.id} + '\');'"
+						th:text="#{button.delete}"></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:fragment="viewUsersTable">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th th:utext="#{table.id}"></th>
+					<th th:utext="#{user.name}"></th>
+					<th th:utext="#{user.surname}"></th>
+					<th th:utext="#{user.username}"></th>
+					<th th:utext="#{user.email}"></th>
+					<th th:utext="#{user.enabled}"></th>
+					<th th:utext="#{user.roles}"></th>
+					<th th:utext="#{table.actions}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${users}">
+					<td th:text="${user.id}"></td>
+					<td th:text="${user.name}"></td>
+					<td th:text="${user.surname}"></td>
+					<td th:text="${user.username}"></td>
+					<td th:text="${user.email}"></td>
+					<td><a th:if="${user.id} != ${currentUser.id}"
+						th:class="${user.enabled} ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-success'"
+						th:attr="onclick='javascript:changeStatus(\'' + ${user.id} + '\');'"
+						th:text="${user.enabled} ? #{table.disable} : #{table.enable}"></a></td>
+					<td><span th:each="role : ${user.roles}"><span
+							th:utext="#{${role.translation}}"></span> </span></td>
+					<td><a th:if="${user.id} != ${currentUser.id}"
+						class="btn btn-sm btn-primary" th:text="#{button.edit}"
+						th:attr="onclick='javascript:getOne(\'' + ${user.id} + '\');'">Edit</a>
+						<a th:if="${user.id} != ${currentUser.id}"
+						class="btn btn-sm btn-danger"
+						th:attr="onclick='javascript:deleteUser(\'' + ${user.id} + '\');'"
+						th:text="#{button.delete}"></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:fragment="userInfoTable" class="col-sm-6 col-sm-offset-3">
+		<table class="table" th:object="${userForm}">
+			<tr>
+				<td th:utext="#{user.name}"></td>
+				<td th:text="*{name}"></td>
+			</tr>
+			<tr>
+				<td th:utext="#{user.surname}"></td>
+				<td th:text="*{surname}"></td>
+			</tr>
+			<tr>
+				<td th:utext="#{user.username}"></td>
+				<td th:text="*{username}"></td>
+			</tr>
+			<tr>
+				<td th:utext="#{user.email}"></td>
+				<td th:text="*{email}"></td>
+			</tr>
+			<tr th:if="${saved}">
+				<td></td>
+				<td><span class="error" th:utext="#{message.changesSaved}"></span></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><a class="btn btn-sm btn-success" th:text="#{button.edit}"
+					onclick="editUser()">Edit</a></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>
