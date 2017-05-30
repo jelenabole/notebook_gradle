@@ -14,7 +14,10 @@
 <body>
 	<div th:replace="fragments/menu :: userInfo"></div>
 
+	<h1 th:text="${errorCode}">CODE</h1>
 	<h1 th:text="${errorMessage}">ERROR</h1>
+
+	<div th:replace="fragments/menu :: footer" id="footer"></div>
 
 </body>
 </html>
