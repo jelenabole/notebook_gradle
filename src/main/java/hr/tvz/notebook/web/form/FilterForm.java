@@ -1,5 +1,6 @@
 package hr.tvz.notebook.web.form;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class FilterForm {
@@ -11,6 +12,12 @@ public class FilterForm {
 	String orderDirection;
 	String searchBy;
 
+	//XXX - pagination:
+	Integer active;
+	Integer perPage;
+	List<Integer> showPerPage;
+	List<Integer> pages;
+
 	public FilterForm() {
 	}
 
@@ -18,6 +25,9 @@ public class FilterForm {
 		this.orderByList = orderByList;
 		this.object = objectName;
 		this.orderDirection = "asc";
+		this.showPerPage = Arrays.asList(5, 10, 15, 20);
+		this.active = 1;
+		this.perPage = 5;
 	}
 
 	public List<String> getOrderByList() {
@@ -58,6 +68,38 @@ public class FilterForm {
 
 	public void setSearchBy(String searchBy) {
 		this.searchBy = searchBy;
+	}
+
+	public Integer getActive() {
+		return active;
+	}
+
+	public void setActive(Integer active) {
+		this.active = active;
+	}
+
+	public Integer getPerPage() {
+		return perPage;
+	}
+
+	public void setPerPage(Integer perPage) {
+		this.perPage = perPage;
+	}
+
+	public List<Integer> getShowPerPage() {
+		return showPerPage;
+	}
+
+	public void setShowPerPage(List<Integer> showPerPage) {
+		this.showPerPage = showPerPage;
+	}
+
+	public List<Integer> getPages() {
+		return pages;
+	}
+
+	public void setPages(List<Integer> pages) {
+		this.pages = pages;
 	}
 
 }

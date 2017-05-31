@@ -1,5 +1,6 @@
 package hr.tvz.notebook.web.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -144,7 +145,7 @@ public class ViewNotesController {
 	}
 
 	// XXX - AJAX - filter/sort:
-	@PostMapping("/notes/search")
+	@PostMapping("/note/search")
 	public String searchNotes(@RequestBody FilterForm filterForm,
 			@SessionAttribute CurrentUser currentUser, Model model) {
 		logger.info("GET/POST - search notes - get by role (" + currentUser.getRoles() + ")");
@@ -152,6 +153,27 @@ public class ViewNotesController {
 		model.addAttribute("notes", noteService.getFilteredNotes(filterForm, currentUser));
 
 		return "fragments/tables :: viewNotesTable";
+	}
+
+	@GetMapping("/note/page/{numberOfNotes}/{perPage}")
+	public String getNumberOfPages(@PathVariable int numberOfNotes, @PathVariable int perPage,
+			Model model) {
+		logger.info("GET/POST - get number of pages");
+
+		FilterForm filterForm = ((FilterForm) model.asMap().get("filterForm"));
+		filterForm.setPerPage(perPage);
+		filterForm.setPages(new ArrayList<>());
+
+		int pages = numberOfNotes / perPage;
+		if (numberOfNotes % perPage != 0) {
+			pages++;
+		}
+
+		for (int i = 1; i <= pages; i++) {
+			filterForm.getPages().add(i);
+		}
+
+		return "fragments/tables :: pagination";
 	}
 
 }

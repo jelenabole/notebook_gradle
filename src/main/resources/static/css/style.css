@@ -4,6 +4,14 @@ html {
 	height: 100%;
 }
 
+#footer {
+	height: 50px;	
+}
+
+.floatRight {
+	float: right;
+}
+
 /*** DEFAULT CLASSES ***/
 .has-error {
 	border: 2px solid red;
@@ -153,4 +161,27 @@ h1 {
 /*** PRIKAZ LISTE BILJEŠKI ***/
 .viewNotes table td {
 	vertical-align: middle; /* zbog ispisa grešaka */
+}
+
+
+/*** PAGINATION ***/
+.pagination {
+	display: inline-block;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
+.pagination a.active { /** green: #4CAF50 **/
+	background-color: rgb(91, 192, 222);
+	color: white;
+	border-radius: 5px;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
 }

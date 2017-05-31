@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public String accessDenied(Exception ex, Model model) {
-		logger.info("ERROR - cause: ", ex.getCause());
+		logger.info("ERROR: ", ex);
 		model.addAttribute("errorCode", "403");
 		model.addAttribute("errorMessage", messageService.getMessage("exception.accessDenied"));
 		return "error/error";
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public String handle(Exception ex, Model model) {
-		logger.info("ERROR - cause: ", ex.getCause());
+		logger.info("ERROR: ", ex);
 		model.addAttribute("errorCode", "404");
 		model.addAttribute("errorMessage", messageService.getMessage("exception.notFound"));
 		return "error/error";
@@ -42,18 +42,18 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = NullPointerException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public String nullPointer(Exception ex, Model model) {
-		logger.info("ERROR - cause: ", ex.getCause());
+		logger.info("ERROR: ", ex);
 		model.addAttribute("errorCode", "500");
 		model.addAttribute("errorMessage",
 				messageService.getMessage("exception.internalServerError"));
 		return "error/error";
 	}
 
-	// TemplateInputException, HibernateException
+	// TemplateInputException, TemplateProcessingException, HibernateException
 	@ExceptionHandler(Throwable.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public String exceptionInternal(Throwable throwable, Model model) {
-		logger.info("ERROR - cause: ", throwable.getCause());
+		logger.info("ERROR: ", throwable);
 		String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
 		model.addAttribute("errorMessage", errorMessage);
 		return "error/error";

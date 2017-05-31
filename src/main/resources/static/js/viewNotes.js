@@ -12,6 +12,7 @@ function filter() {
 	form["orderBy"] = $("#orderBy").val();
 	form["orderDirection"] = $(".filterForm input[type='radio']:checked").val()
 	form["searchBy"] = $("#searchBy").val();
+	form["perPage"] = $("#perPage option:selected").val();
 
 	getNotes(form);
 }
@@ -22,13 +23,14 @@ function getNotes(form) {
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
-		url : "notes/search",
+		url : "note/search",
 		data : JSON.stringify(form),
 		timeout : 100000,
 		success : function(data) {
 			console.log("GET ALL");
 			// console.log("SUCCESS: ", data);
 			$("#table").html(data);
+			getPagination();
 			deleteForm();
 		},
 		error : function(e) {
@@ -118,7 +120,7 @@ var getNoteInfo = function() {
 	noteForm["user"] = user;
 	var notebook = $("#notebook").find('option:selected').data("object");
 	noteForm["notebook"] = notebook;
-	
+
 	noteForm["important"] = $(".newForm input[type='checkbox']:checked").val() == undefined ? null
 			: "IMPORTANT";
 	noteForm["mark"] = $(".newForm input[type='radio']:checked").val() == undefined ? null
@@ -146,4 +148,56 @@ var hideForm = function() {
 var showForm = function() {
 	// $(".newForm").show();
 	$("#addButton").hide();
+}
+
+/** ************* SHOW PER PAGE ************** */
+
+// get page numbers:
+function getPagination() {
+	$.get("note/page/" + $(".notes").length + "/"
+			+ $("#perPage option:selected").val(), function(data) {
+		console.log("GET PAGES");
+		// console.log("SUCCESS: ", data);
+		$("#pagination").html(data);
+		$("#currentPage").val(1);
+		refreshPaging();
+	});
+}
+
+var refreshPaging = function() {
+	var current = $("#currentPage").val();
+	// change active link:
+	$(".pages").removeClass("active");
+	$("#" + current).addClass("active");
+
+	// get start and end index:
+	var perPage = $("#perPage").val();
+	var until = perPage * current;
+	var start = until - perPage;
+
+	// hide everything except the ones on the page:
+	$(".notes").hide();
+	$(".notes").each(function(i, item) {
+		if (i >= start && i < until)
+			$(item).show();
+	});
+}
+
+var changePage = function(num) {
+	$("#currentPage").val(num);
+	refreshPaging();
+}
+
+var back = function() {
+	if ($("#currentPage").val() != 1) {
+		$("#currentPage").val($("#currentPage").val() - 1);
+		refreshPaging();
+	}
+}
+
+var forth = function() {
+	if ($("#currentPage").val() != $(".pages").length) {
+		$("#currentPage").val(parseInt($("#currentPage").val()) + 1);
+		refreshPaging();
+	}
 }
