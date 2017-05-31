@@ -199,12 +199,13 @@
 				</tr>
 				<tr>
 					<td><label th:utext="#{user.form.roles}"></label></td>
-					<td th:class="${#fields.hasErrors('roles')}? 'has-error' : ''"><label
-						class="roles" for="roles"
+					<td th:class="${#fields.hasErrors('roles')}? 'has-error' : ''">
+						<label class="block"
 						th:each="role : ${T(hr.tvz.notebook.enums.UserRoles).values()}">
-							<input name="roles" type="checkbox" th:field="*{roles}"
+							<input type="checkbox" th:id="${role}" th:field="*{roles}"
 							th:value="${role}" /> <span th:utext="#{${role.translation}}"></span>
-					</label></td>
+					</label>
+					</td>
 				</tr>
 				<tr>
 					<td><input type="hidden" id="id" th:field="*{id}" /></td>
